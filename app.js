@@ -13,7 +13,8 @@ const BadRequstError = require('./errors/bad-request-err');
 const { userCreateValidator, loginValidator } = require('./middlewares/validator');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT } = require('./config/index');
+
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
