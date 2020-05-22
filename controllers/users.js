@@ -6,6 +6,7 @@ const NotFoundError = require('../errors/not-found-err');
 const BadRequstError = require('../errors/bad-request-err');
 const Forbidden = require('../errors/forbidden-err');
 
+
 const findUser = (req, res, next) => userModel.find({})
   .then((user) => {
     res.json(user);
@@ -52,7 +53,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET,
+        process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
       res.send({ token });
