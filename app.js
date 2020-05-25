@@ -14,7 +14,7 @@ const BadRequstError = require('./errors/bad-request-err');
 const { userCreateValidator, loginValidator } = require('./middlewares/validator');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT } = require('./config/index');
+const { PORT, BASE_URL } = require('./config/index');
 
 const app = express();
 

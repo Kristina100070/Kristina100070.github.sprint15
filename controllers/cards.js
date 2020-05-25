@@ -37,14 +37,19 @@ const findCardById = (req, res) => {
   res.json(req.card);
 };
 
-const deleteCard = (req, res, next) => cardModel.remove({ _id: req.params.cardId })
-  .then((card) => {
-    if (String(card.owner) !== req.user._id) {
-      throw new Forbidden('Недостаточно прав для совершения данного действия');
-    }
-    res.json(card);
-  })
-  .catch(next);
+const deleteCard = (req, res, next) => {
+  cardModel.findById(req.params.cardId)
+    .then((card) => {
+      if (card.owner.toString() === req.user._id) {
+        cardModel.findByIdAndRemove(req.params.cardId)
+          .then((cardRemove) => res.send({ remove: cardRemove }))
+          .catch(next);
+      } else {
+        throw new Forbidden('Недостаточно прав для совершения данного действия');
+      }
+    })
+    .catch(next);
+};
 
 const likeCard = (req, res, next) => {
   cardModel.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } },
