@@ -21,6 +21,7 @@ const userCreateValidator = celebrate({
       .required()
       .label('Неверный почтовый адрес'),
     password: Joi.string()
+      .pattern(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
       .min(8)
       .required()
       .label('Неверный пароль'),
